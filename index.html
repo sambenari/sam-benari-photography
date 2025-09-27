@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sam Benari — Black & White Street Photography</title>
+  <meta name="description" content="Sam Benari — Black & White Street Photography" />
+  <link rel="stylesheet" href="assets/main.css" />
+  <style>
+    /* --- Force consistent dark-grey theme at ALL breakpoints --- */
+    html, body { height: 100%; }
+    /* Paint a fixed grey layer behind everything so no black peeks through */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: #444;       /* gallery grey */
+      z-index: -1;
+    }
+    /* Make sure nothing re-colors the page behind */
+    html { background: #444 !important; }
+    body {
+      margin: 0;
+      color: #eee;            /* light text for contrast */
+      background: transparent !important;
+    }
+    /* Common sections must NOT paint backgrounds */
+    header.wrap, main.wrap, footer.wrap,
+    .hero, .project-list, .projects, .wrap {
+      background: transparent !important;
+    }
+    /* Cards should sit on a mid-grey, not black */
+    .card { background: #333 !important; }
+    /* Links remain readable */
+    a { color: #eee; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    /* Make sure hero image never introduces a black band */
+    .hero img, .hero .cover { display:block; max-width:100%; height:auto; background: transparent !important; }
+  </style>
+</head>
+<body>
+  <header class="wrap">
+    <a class="brand" href="index.html">Sam Benari</a>
+    <nav>
+      <a href="about.html">About</a>
+      <a href="mailto:sam.benari@me.com">Contact</a>
+    </nav>
+  </header>
+
+  <main class="wrap">
+    <!-- HERO populated from site.json -->
+    <section id="hero" class="hero"></section>
+
+    <h2>Projects</h2>
+    <div id="project-list" class="project-list"></div>
+  </main>
+
+  <footer class="wrap">
+    <div>© Sam Benari</div>
+    <div><a href="https://instagram.com/sambenari" target="_blank" rel="noopener">Instagram</a></div>
+  </footer>
+
+  <script>
+  // Helper to fetch JSON without cache
+  async function getJSON(path) {
+    const res = await fetch(path, { cache: 'no-store' });
+    if (!res.ok) throw new Error(path + ' HTTP ' + res.status);
+    return res.json();
+  }
+
+  // Load hero from site.json (headline, subtext, image)
+  async function loadHero() {
+    try {
+      const data = await getJSON('site.json');
+      const hero = data?.hero || {};
+      const headline = hero.headline || '';
+      const subtext  = hero.subtext  || '';
+      const src      = hero.src      || '';
+      const alt      = hero.alt      || 'Homepage hero';
+
+      const el = document.getElementById('hero');
+      el.innerHTML = `
+        <div>
+          <h1>${headline}</h1>
+          <p class="muted">${subtext}</p>
+        </div>
+        ${src ? `<img class="cover" src="${src}" alt="${alt}">` : ''}
+      `;
+    } catch (e) {
+      console.error('Failed to load hero from site.json', e);
+      const el = document.getElementById('hero');
+      el.innerHTML = `
+        <div>
+          <h1>Sam Benari Photography</h1>
+          <p class="muted">Black & White Street Photography</p>
+        </div>
+      `;
+    }
+  }
+
+  // Load project cards from each project's manifest
+  async function loadProjects() {
+    const projects = [
+      { slug: 'through-the-window' },
+      { slug: 'cafe-life' },
+      { slug: 'soho' },
+      { slug: 'other-work' }
+    ];
+    const container = document.getElementById('project-list');
+
+    for (const p of projects) {
+      try {
+        const m = await getJSON(`projects/${p.slug}/manifest.json`);
+        const cover = m.cover || (m.images && m.images[0] && m.images[0].src) || '';
+        const title = m.title || p.slug.replace(/-/g, ' ');
+        const desc  = m.description || '';
+
+        const card = document.createElement('a');
+        card.className = 'card';
+        card.href = `projects/${p.slug}/`;
+        card.innerHTML = `
+          <img src="projects/${p.slug}/${cover}" alt="${title} cover">
+          <div class="meta">
+            <h3>${title}</h3>
+            <p>${desc}</p>
+          </div>
+        `;
+        container.appendChild(card);
+      } catch (err) {
+        console.error('Failed to load', p.slug, err);
+      }
+    }
+  }
+
+  loadHero();
+  loadProjects();
+  </script>
+</body>
+</html>

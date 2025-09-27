@@ -1,0 +1,38 @@
+{
+  "title": "Soho",
+  "description": "Soho, throughout the years",
+  "images": [
+   
+    { "src": "images/Imag 1.jpg", "alt": "Imag 1" },
+    { "src": "images/Imag 2.jpg", "alt": "Imag 2" },
+    { "src": "images/Imag 3.jpg", "alt": "Imag 3" },
+    { "src": "images/Imag 4.jpg", "alt": "Imag 4" },
+    { "src": "images/Imag 5.jpg", "alt": "Imag 5" },
+    { "src": "images/Imag 6.jpg", "alt": "Imag 6" },
+    { "src": "images/Imag 7.jpg", "alt": "Imag 7" },
+    { "src": "images/Imag 8.jpg", "alt": "Imag 8" },
+    { "src": "images/Imag 9.jpg", "alt": "Imag 9" },
+    { "src": "images/Imag 10.jpg", "alt": "Imag 10" },
+    { "src": "images/Imag 11.jpg", "alt": "Imag 11" },
+    { "src": "images/Imag 12.jpg", "alt": "Imag 12" },
+    { "src": "images/Imag 13.jpg", "alt": "Imag 13" },
+    { "src": "images/Imag 14.jpg", "alt": "Imag 14" },
+    { "src": "images/Imag 15.jpg", "alt": "Imag 15" },
+    { "src": "images/Imag 16.jpg", "alt": "Imag 16" },
+    { "src": "images/Imag 17.jpg", "alt": "Imag 17" },
+    { "src": "images/Imag 18.jpg", "alt": "Imag 18" },
+    { "src": "images/Imag 19.jpg", "alt": "Imag 19" },
+    { "src": "images/Imag 20.jpg", "alt": "Imag 20" },
+    { "src": "images/Imag 21.jpg", "alt": "Imag 21" },
+    { "src": "images/Imag 22.jpg", "alt": "Imag 22" },
+    { "src": "images/Imag 23.jpg", "alt": "Imag 23" },
+    { "src": "images/Imag 24.jpg", "alt": "Imag 24" },
+    { "src": "images/Imag 25.jpg", "alt": "Imag 25" },
+    { "src": "images/Imag 26.jpg", "alt": "Imag 26" },
+    { "src": "images/Imag 27.jpg", "alt": "Imag 27" },
+    { "src": "images/Imag 28.jpg", "alt": "Imag 28" },
+    { "src": "images/Imag 29.jpg", "alt": "Imag 29" },
+    { "src": "images/Imag 30.jpg", "alt": "Imag 30" }
+  ],
+  "cover": "images/Imag 30.jpg"
+}

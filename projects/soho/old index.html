@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Project — Sam Benari</title>
+  <link rel="stylesheet" href="../../assets/main.css"/>
+  <style>
+    body, html { height: 100%; }
+    main.viewer {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      height: calc(100vh - 80px);
+      gap: 12px;
+    }
+    header.wrap { display:flex; justify-content:flex-end; align-items:center; padding:16px 0; }
+    .title { margin: 0; }
+
+    .stage {
+      position: relative;
+      background: #0b0b0b;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .stage img.main {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .nav {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      font-size: 42px; line-height: 1; background: rgba(0,0,0,.45);
+      padding: 10px 14px; border-radius: 12px; cursor: pointer; user-select: none;
+    }
+    .nav:hover { background: rgba(0,0,0,.65); }
+    .nav.prev { left: 12px; }
+    .nav.next { right: 12px; }
+
+    .strip {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(80px, 120px);
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px; border-radius: 12px; background: #0f0f0f;
+      scroll-snap-type: x mandatory;
+    }
+    .thumb {
+      position: relative;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      scroll-snap-align: start;
+      cursor: pointer;
+    }
+    .thumb img {
+      width: 100%; aspect-ratio: 3/2; object-fit: cover;
+      display:block; border-radius: 6px; filter: contrast(0.9);
+    }
+    .thumb.active { border-color: #e5e5e5; }
+    .thumb.active::after {
+      content: ""; position: absolute; inset: 0;
+      outline: 2px solid #e5e5e5; outline-offset: -4px; border-radius: 6px;
+    }
+
+    .meta { margin: 0 0 8px 0; color: #bbb; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="wrap">
+      <nav>
+        <a href="../../index.html">Home</a>
+        <a href="../../about.html">About</a>
+        <a href="mailto:sam.benari@me.com">Contact</a>
+      </nav>
+    </header>
+
+    <h1 id="project-title" class="title">Project</h1>
+    <p id="project-desc" class="meta"></p>
+
+    <main class="viewer">
+      <section class="stage">
+        <span class="nav prev" id="prev" aria-label="Previous">&#10094;</span>
+        <img id="main" class="main" alt="">
+        <span class="nav next" id="next" aria-label="Next">&#10095;</span>
+      </section>
+      <section id="strip" class="strip" aria-label="Thumbnails"></section>
+    </main>
+  </div>
+
+  <footer class="wrap">
+    <div>© Sam Benari</div>
+    <div><a href="https://instagram.com/sambenari" target="_blank" rel="noopener">Instagram</a></div>
+  </footer>
+
+  <script>
+    async function getJSON(path) {
+      const res = await fetch(path, { cache: 'no-store' });
+      if (!res.ok) throw new Error(path + ' HTTP ' + res.status);
+      return res.json();
+    }
+
+    let images = [];
+    let index = 0;
+
+    const mainImg = document.getElementById('main');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const stripEl = document.getElementById('strip');
+    const titleEl = document.getElementById('project-title');
+    const descEl  = document.getElementById('project-desc');
+
+    (async function init() {
+      try {
+        const m = await getJSON('manifest.json');
+        images = (m.images || []).map(it => ({ src: it.src, alt: it.alt || '' }));
+        titleEl.textContent = m.title || 'Project';
+        descEl.textContent  = m.description || '';
+        buildStrip();
+        goTo(0, { scroll: false });
+      } catch (e) {
+        console.error('Failed to load manifest.json', e);
+      }
+    })();
+
+    function buildStrip() {
+      stripEl.innerHTML = '';
+      images.forEach((img, i) => {
+        const b = document.createElement('button');
+        b.className = 'thumb';
+        b.type = 'button';
+        b.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
+        b.addEventListener('click', () => goTo(i));
+        stripEl.appendChild(b);
+      });
+    }
+
+    function goTo(i, opts = { scroll: true }) {
+      if (!images.length) return;
+      index = (i + images.length) % images.length;
+      const img = images[index];
+      mainImg.src = img.src;
+      mainImg.alt = img.alt || '';
+      updateActiveThumb(opts.scroll);
+    }
+
+    function updateActiveThumb(scrollIntoView = true) {
+      const thumbs = stripEl.querySelectorAll('.thumb');
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
+      if (scrollIntoView && thumbs[index]) {
+        thumbs[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    function next() { goTo(index + 1); }
+    function prev() { goTo(index - 1); }
+
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight') next();
+      if (e.key === 'ArrowLeft')  prev();
+      if (e.key === 'Escape') window.location.href='../../index.html';
+    });
+  </script>
+</body>
+</html>
