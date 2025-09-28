@@ -3,96 +3,123 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Project — Sam Benari</title>
+  <title>Soho — Sam Benari</title>
   <link rel="stylesheet" href="../../assets/main.css"/>
   <style>
-    body, html { height: 100%; }
-    main.viewer {
-      display: grid;
-      grid-template-rows: 1fr auto;
-      height: calc(100vh - 80px);
-      gap: 12px;
+    :root{
+      --strip: 120px;      /* width of negative strip */
+      --image-max: 90%;    /* max size of photo inside stage */
+      --page-bg: #444;     /* page background grey */
+      --strip-bg:#333;     /* strip background */
+      --stage-bg:#222;     /* stage background */
     }
-    header.wrap { display:flex; justify-content:flex-end; align-items:center; padding:16px 0; }
-    .title { margin: 0; }
 
-    .stage {
-      position: relative;
-      background: #0b0b0b;
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
-    }
-    .stage img.main {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
-    }
-    .nav {
-      position: absolute; top: 50%; transform: translateY(-50%);
-      font-size: 42px; line-height: 1; background: rgba(0,0,0,.45);
-      padding: 10px 14px; border-radius: 12px; cursor: pointer; user-select: none;
-    }
-    .nav:hover { background: rgba(0,0,0,.65); }
-    .nav.prev { left: 12px; }
-    .nav.next { right: 12px; }
+    html, body { height: 100%; margin:0; background:var(--page-bg); color:#eee; }
+    body { display:flex; flex-direction:column; min-height:100vh; }
 
+    /* Header */
+    header { display:flex; justify-content:flex-end; gap:18px; padding:12px 20px; }
+    header a { white-space:nowrap; }
+
+    /* Content wrapper */
+    .content { flex:1; display:flex; flex-direction:column; min-height:0; padding:0 20px; }
+
+    /* Project meta */
+    .meta-block { margin: 0 0 8px 0; }
+    .meta-block h1 { margin:0 0 4px 0; font-size:clamp(20px,3vw,28px); line-height:1.2; }
+    .meta-block p  { margin:0; color:#ddd; font-size:clamp(14px,2vw,16px); }
+
+    /* Viewer: slightly reduce main stage area, enlarge thumb strip */
+    .viewer {
+      flex:1; min-height:0;
+      display:grid; grid-template-columns: var(--strip) 1fr;
+      gap:14px; margin-top:10px;
+    }
+
+    /* Negative strip (bigger thumbs) */
     .strip {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: minmax(80px, 120px);
-      gap: 8px;
-      overflow-x: auto;
-      padding: 10px; border-radius: 12px; background: #0f0f0f;
-      scroll-snap-type: x mandatory;
+      background:var(--strip-bg); border-radius:6px;
+      padding:6px; overflow-y:auto; overflow-x:hidden;
     }
     .thumb {
-      position: relative;
-      border: 2px solid transparent;
-      border-radius: 8px;
-      scroll-snap-align: start;
-      cursor: pointer;
+      display:block; margin-bottom:6px;
+      border:1px solid transparent; border-radius:3px;
+      cursor:pointer; background:#000; padding:1px;
     }
     .thumb img {
-      width: 100%; aspect-ratio: 3/2; object-fit: cover;
-      display:block; border-radius: 6px; filter: contrast(0.9);
+      width: 100%;
+      display:block;
+      filter: grayscale(1) contrast(1.15) brightness(0.85);
     }
-    .thumb.active { border-color: #e5e5e5; }
-    .thumb.active::after {
-      content: ""; position: absolute; inset: 0;
-      outline: 2px solid #e5e5e5; outline-offset: -4px; border-radius: 6px;
+    .thumb.active { border-color:#f0f0f0; }
+
+    /* Stage (slightly smaller visual footprint via max-size limit) */
+    .stage {
+      position:relative; background:var(--stage-bg);
+      border-radius:8px; overflow:hidden; min-height:0;
+      display:flex; align-items:center; justify-content:center;
+      /* add inner breathing room so image never feels edge-to-edge */
+      padding: clamp(8px, 1.8vmin, 24px);
+    }
+    .stage img.main{
+      display:block;
+      width:auto; height:auto;
+      max-width: var(--image-max);
+      max-height: var(--image-max);
+      object-fit: contain;
+      user-select:none; -webkit-user-drag:none;
     }
 
-    .meta { margin: 0 0 8px 0; color: #bbb; }
+    /* Up/Down nav buttons */
+    .nav{
+      position:absolute; left:50%; transform:translateX(-50%);
+      font-size:28px; background:rgba(0,0,0,.45);
+      padding:6px 10px; border-radius:6px; cursor:pointer; user-select:none;
+    }
+    .nav:hover{ background:rgba(0,0,0,.65); }
+    .nav.prev{ top:10px; }
+    .nav.next{ bottom:10px; }
+
+    /* Footer */
+    footer { padding:8px 20px 16px; color:#ccc;
+      display:flex; justify-content:space-between; gap:12px; }
+    footer a{ white-space:nowrap; }
+
+    /* Mobile tweak */
+    @media (max-width: 720px){
+      :root{ --strip: 96px; --image-max: 88%; }
+    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header class="wrap">
-      <nav>
-        <a href="../../index.html">Home</a>
-        <a href="../../about.html">About</a>
-        <a href="mailto:sam.benari@me.com">Contact</a>
-      </nav>
-    </header>
+  <header>
+    <nav>
+      <a href="../../index.html">Home</a>
+      <a href="../../about.html">About</a>
+      <a href="mailto:sam.benari@me.com">Contact</a>
+    </nav>
+  </header>
 
-    <h1 id="project-title" class="title">Project</h1>
-    <p id="project-desc" class="meta"></p>
+  <div class="content">
+    <section class="meta-block">
+      <h1 id="project-title">Project</h1>
+      <p id="project-desc"></p>
+    </section>
 
-    <main class="viewer">
-      <section class="stage">
-        <span class="nav prev" id="prev" aria-label="Previous">&#10094;</span>
+    <section class="viewer">
+      <!-- Slim negative strip -->
+      <aside id="strip" class="strip" aria-label="Thumbnails"></aside>
+
+      <!-- Stage with contained image (no white frame) -->
+      <section class="stage" aria-live="polite">
+        <span class="nav prev" id="prev" aria-label="Previous">&#9650;</span>
         <img id="main" class="main" alt="">
-        <span class="nav next" id="next" aria-label="Next">&#10095;</span>
+        <span class="nav next" id="next" aria-label="Next">&#9660;</span>
       </section>
-      <section id="strip" class="strip" aria-label="Thumbnails"></section>
-    </main>
+    </section>
   </div>
 
-  <footer class="wrap">
+  <footer>
     <div>© Sam Benari</div>
     <div><a href="https://instagram.com/sambenari" target="_blank" rel="noopener">Instagram</a></div>
   </footer>
@@ -121,7 +148,7 @@
         titleEl.textContent = m.title || 'Project';
         descEl.textContent  = m.description || '';
         buildStrip();
-        goTo(0, { scroll: false });
+        goTo(0, false);
       } catch (e) {
         console.error('Failed to load manifest.json', e);
       }
@@ -130,29 +157,28 @@
     function buildStrip() {
       stripEl.innerHTML = '';
       images.forEach((img, i) => {
-        const b = document.createElement('button');
+        const b = document.createElement('div');
         b.className = 'thumb';
-        b.type = 'button';
         b.innerHTML = `<img src="${img.src}" alt="${img.alt}">`;
         b.addEventListener('click', () => goTo(i));
         stripEl.appendChild(b);
       });
     }
 
-    function goTo(i, opts = { scroll: true }) {
+    function goTo(i, scroll = true) {
       if (!images.length) return;
       index = (i + images.length) % images.length;
       const img = images[index];
       mainImg.src = img.src;
       mainImg.alt = img.alt || '';
-      updateActiveThumb(opts.scroll);
+      updateActiveThumb(scroll);
     }
 
-    function updateActiveThumb(scrollIntoView = true) {
+    function updateActiveThumb(scroll) {
       const thumbs = stripEl.querySelectorAll('.thumb');
       thumbs.forEach((t, i) => t.classList.toggle('active', i === index));
-      if (scrollIntoView && thumbs[index]) {
-        thumbs[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      if (scroll && thumbs[index]) {
+        thumbs[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
     }
 
@@ -163,9 +189,9 @@
     prevBtn.addEventListener('click', prev);
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowRight') next();
-      if (e.key === 'ArrowLeft')  prev();
-      if (e.key === 'Escape') window.location.href='../../index.html';
+      if (e.key === 'ArrowDown') next();
+      if (e.key === 'ArrowUp')   prev();
+      if (e.key === 'Escape')    window.location.href='../../index.html';
     });
   </script>
 </body>

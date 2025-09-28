@@ -7,21 +7,20 @@
   <link rel="stylesheet" href="../../assets/main.css"/>
   <style>
     :root{
-      --strip: 120px;      /* width of negative strip */
-      --image-max: 90%;    /* max size of photo inside stage */
-      --page-bg: #444;     /* page background grey */
-      --strip-bg:#333;     /* strip background */
-      --stage-bg:#222;     /* stage background */
+      --strip: 120px;     /* desktop strip width */
+      --image-max: 90%;   /* desktop photo size inside stage */
+      --page-bg: #444;
+      --strip-bg:#333;
+      --stage-bg:#222;
     }
-
-    html, body { height: 100%; margin:0; background:var(--page-bg); color:#eee; }
+    html, body { height:100%; margin:0; background:var(--page-bg); color:#eee; }
     body { display:flex; flex-direction:column; min-height:100vh; }
 
     /* Header */
     header { display:flex; justify-content:flex-end; gap:18px; padding:12px 20px; }
     header a { white-space:nowrap; }
 
-    /* Content wrapper */
+    /* Content */
     .content { flex:1; display:flex; flex-direction:column; min-height:0; padding:0 20px; }
 
     /* Project meta */
@@ -29,36 +28,27 @@
     .meta-block h1 { margin:0 0 4px 0; font-size:clamp(20px,3vw,28px); line-height:1.2; }
     .meta-block p  { margin:0; color:#ddd; font-size:clamp(14px,2vw,16px); }
 
-    /* Viewer: slightly reduce main stage area, enlarge thumb strip */
+    /* Viewer grid */
     .viewer {
       flex:1; min-height:0;
       display:grid; grid-template-columns: var(--strip) 1fr;
       gap:14px; margin-top:10px;
     }
 
-    /* Negative strip (bigger thumbs) */
+    /* Strip (desktop) */
     .strip {
       background:var(--strip-bg); border-radius:6px;
       padding:6px; overflow-y:auto; overflow-x:hidden;
     }
-    .thumb {
-      display:block; margin-bottom:6px;
-      border:1px solid transparent; border-radius:3px;
-      cursor:pointer; background:#000; padding:1px;
-    }
-    .thumb img {
-      width: 100%;
-      display:block;
-      filter: grayscale(1) contrast(1.15) brightness(0.85);
-    }
+    .thumb { display:block; margin-bottom:6px; border:1px solid transparent; border-radius:3px; cursor:pointer; background:#000; padding:1px; }
+    .thumb img { width:100%; display:block; filter: grayscale(1) contrast(1.15) brightness(0.85); }
     .thumb.active { border-color:#f0f0f0; }
 
-    /* Stage (slightly smaller visual footprint via max-size limit) */
+    /* Stage */
     .stage {
       position:relative; background:var(--stage-bg);
       border-radius:8px; overflow:hidden; min-height:0;
       display:flex; align-items:center; justify-content:center;
-      /* add inner breathing room so image never feels edge-to-edge */
       padding: clamp(8px, 1.8vmin, 24px);
     }
     .stage img.main{
@@ -70,7 +60,7 @@
       user-select:none; -webkit-user-drag:none;
     }
 
-    /* Up/Down nav buttons */
+    /* Up/Down arrows */
     .nav{
       position:absolute; left:50%; transform:translateX(-50%);
       font-size:28px; background:rgba(0,0,0,.45);
@@ -81,13 +71,29 @@
     .nav.next{ bottom:10px; }
 
     /* Footer */
-    footer { padding:8px 20px 16px; color:#ccc;
-      display:flex; justify-content:space-between; gap:12px; }
+    footer { padding:8px 20px 16px; color:#ccc; display:flex; justify-content:space-between; gap:12px; }
     footer a{ white-space:nowrap; }
 
-    /* Mobile tweak */
+    /* ===== Mobile layout (phones) ===== */
     @media (max-width: 720px){
-      :root{ --strip: 96px; --image-max: 88%; }
+      :root{
+        --image-max: 96%;  /* let the photo get larger on mobile */
+      }
+      .content { padding: 0 10px; }
+      .viewer {
+        grid-template-columns: 1fr; /* no sidebar strip */
+        gap: 8px;
+      }
+      .strip { display:none; }       /* hide thumbnails on mobile */
+      .stage {
+        padding: min(3vmin, 16px);
+        border-radius: 6px;
+      }
+      .stage img.main{
+        max-width: 98vw;
+        max-height: 78vh; /* leave room for title/nav */
+      }
+      .nav { font-size: 32px; padding: 8px 12px; } /* bigger tap targets */
     }
   </style>
 </head>
@@ -107,11 +113,11 @@
     </section>
 
     <section class="viewer">
-      <!-- Slim negative strip -->
+      <!-- Desktop strip (hidden on mobile) -->
       <aside id="strip" class="strip" aria-label="Thumbnails"></aside>
 
-      <!-- Stage with contained image (no white frame) -->
-      <section class="stage" aria-live="polite">
+      <!-- Stage -->
+      <section class="stage" aria-live="polite" id="stage">
         <span class="nav prev" id="prev" aria-label="Previous">&#9650;</span>
         <img id="main" class="main" alt="">
         <span class="nav next" id="next" aria-label="Next">&#9660;</span>
@@ -140,6 +146,7 @@
     const stripEl = document.getElementById('strip');
     const titleEl = document.getElementById('project-title');
     const descEl  = document.getElementById('project-desc');
+    const stageEl = document.getElementById('stage');
 
     (async function init() {
       try {
@@ -149,6 +156,7 @@
         descEl.textContent  = m.description || '';
         buildStrip();
         goTo(0, false);
+        enableTouchSwipe();
       } catch (e) {
         console.error('Failed to load manifest.json', e);
       }
@@ -193,6 +201,26 @@
       if (e.key === 'ArrowUp')   prev();
       if (e.key === 'Escape')    window.location.href='../../index.html';
     });
+
+    // Optional: simple vertical swipe for mobile
+    function enableTouchSwipe() {
+      let y0 = null, t0 = 0;
+      stageEl.addEventListener('touchstart', (e) => {
+        const t = e.changedTouches[0];
+        y0 = t.clientY;
+        t0 = e.timeStamp;
+      }, {passive:true});
+      stageEl.addEventListener('touchend', (e) => {
+        const t = e.changedTouches[0];
+        if (y0 == null) return;
+        const dy = t.clientY - y0;
+        const dt = e.timeStamp - t0;
+        if (dt < 600 && Math.abs(dy) > 40) {
+          if (dy < 0) next(); else prev();
+        }
+        y0 = null;
+      }, {passive:true});
+    }
   </script>
 </body>
 </html>
