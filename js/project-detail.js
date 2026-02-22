@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const count = project.photos.length;
   document.getElementById('photoCount').textContent =
     `${count} photograph${count !== 1 ? 's' : ''}`;
+  if (project.description) {
+    document.getElementById('projectDescription').textContent = project.description;
+  }
 
   /* --- Build photo strip ---------------------------------- */
   const strip = document.getElementById('photoStrip');

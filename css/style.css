@@ -365,6 +365,16 @@ a {
   color: var(--mid);
 }
 
+.project-description {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 300;
+  color: var(--mid);
+  line-height: 1.5;
+  margin-top: 12px;
+  max-width: 600px;
+}
+
 .project-slideshow-btn {
   display: flex;
   align-items: center;
@@ -870,6 +880,10 @@ a {
   .project-title-section {
     flex-direction: column;
     gap: 16px;
+  }
+
+  .project-description {
+    font-size: 0.9rem;
   }
 
   .project-slideshow-btn {
