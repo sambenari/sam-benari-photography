@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Sam Benari</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="about-page">
+
+  <!-- NAVIGATION -->
+  <nav id="nav">
+    <a href="index.html" class="nav-logo">Sam Benari</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Work</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="store.html">Store</a></li>
+    </ul>
+  </nav>
+
+  <main class="about-main">
+    <div class="about-grid">
+
+      <!-- LEFT: Photo placeholder -->
+      <div class="about-portrait">
+        <div class="portrait-placeholder">
+          <!-- Replace this div with: <img src="images/portrait.jpg" alt="Sam Benari" /> -->
+          <img src="images/portrait.jpg" alt="Sam Benari" />
+        </div>
+      </div>
+
+      <!-- RIGHT: Text -->
+      <div class="about-content">
+        <h1 class="about-title">Sam Benari</h1>
+
+        <!--
+          ============================================================
+          EDIT YOUR BIO BELOW — replace this placeholder text
+          with your own. You can use multiple <p> tags for paragraphs.
+          ============================================================
+        -->
+        <div class="about-bio">
+          <p>
+            I am a street photographer with a fascination for how people inhabit and move through the city. My work is predominantly black and white, a choice that strips images to their essentials and draws attention to light, shadow, rhythm, and gesture. Cities are never still: they shift constantly, offering fleeting intersections of strangers, reflections, and fragments of daily life. I aim to capture those moments that might otherwise slip away, where the ordinary becomes quietly extraordinary.
+          </p>
+          <p>
+            Large cities hold a special energy for me. London, Paris, Rome, Tokyo—each one is both universal and unique. They share the pulse of crowded streets, the hum of movement, the anonymity of the crowd; yet every city carries its own texture, its own light, its own sense of pace. What interests me most is how human presence repeats itself across these landscapes while also being shaped in subtle ways by culture, architecture, and atmosphere.
+          </p>
+          <p>
+            Photography, for me, is about noticing. It is about paying attention to the small dramas that play out in public spaces—the humour, solitude, tension, or tenderness that reveal themselves in passing. I don't look for staged or spectacular scenes; I look for those in-between moments where something universal shows through. When I raise the camera, I try to catch a fragment of that reality and turn it into a lasting image.
+          </p>
+          <p>
+            My photographs are less about documenting events than about creating a record of human presence, one frame at a time. They are stories without scripts, snapshots of the beauty, chaos, and mystery of life in the city.
+          </p>
+          <p>
+            For prints, licensing or collaborations, email <a href="mailto:sam.benari@me.com">sam.benari@me.com</a> or find me on <a href="https://instagram.com/sambenari">Instagram</a>.
+          </p>
+        </div>
+        <!-- ============================================================ -->
+
+        <div class="about-links">
+          <a href="https://www.instagram.com/sambenari/" target="_blank" rel="noopener" class="about-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+            </svg>
+            Instagram
+          </a>
+          <a href="https://www.flickr.com/sam-benari/" target="_blank" rel="noopener" class="about-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="7.5" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
+              <circle cx="16.5" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/>
+            </svg>
+            Flickr
+          </a>
+          <a href="mailto:sam.benari@me.com" class="about-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M2 8l10 6 10-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            sam.benari@me.com
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span class="footer-name">Sam Benari</span>
+      <div class="footer-links">
+        <a href="https://instagram.com/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://flickr.com/" target="_blank" rel="noopener">Flickr</a>
+        <a href="mailto:sam.benari@me.com">Contact</a>
+      </div>
+      <span class="footer-copy">&copy; <span id="year"></span></span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
