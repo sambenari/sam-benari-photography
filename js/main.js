@@ -55,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
       <img src="${coverSrc}" alt="${project.title}" loading="${i < 4 ? 'eager' : 'lazy'}" />
       <div class="project-card-info">
         <p class="project-card-title">${project.title}</p>
-        <p class="project-card-description">${project.description}</p>
         <p class="project-card-count">${count} photograph${count !== 1 ? 's' : ''}</p>
       </div>`;
 

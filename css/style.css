@@ -273,15 +273,6 @@ a {
   line-height: 1.2;
 }
 
-.project-card-description {
-  font-family: var(--sans);
-  font-size: 0.9rem;
-  font-weight: 300;
-  color: var(--white);
-  line-height: 1.4;
-  margin-top: 6px;
-}
-
 .project-card-count {
   font-size: 0.72rem;
   letter-spacing: 0.14em;
