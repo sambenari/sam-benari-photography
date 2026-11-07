@@ -6,6 +6,13 @@
     "cover": "/assets/through-the-window/cover.jpg",
     "photos": [
       {
+        "id": "pool-f3a5a97b3abb02d61145",
+        "src": "/assets/pool/pool-f3a5a97b3abb02d61145.jpg",
+        "thumb": "/assets/pool/pool-f3a5a97b3abb02d61145-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1004281.jpeg"
+      },
+      {
         "id": "through-the-window-001",
         "src": "/assets/through-the-window/001.jpg",
         "thumb": "/assets/through-the-window/001-thumb.jpg",
@@ -25,13 +32,6 @@
         "thumb": "/assets/pool/pool-42d63380af99bab099f0-thumb.jpg",
         "alt": "Untitled, London 2023",
         "sourceFilename": "L1000737.jpeg"
-      },
-      {
-        "id": "pool-f3a5a97b3abb02d61145",
-        "src": "/assets/pool/pool-f3a5a97b3abb02d61145.jpg",
-        "thumb": "/assets/pool/pool-f3a5a97b3abb02d61145-thumb.jpg",
-        "alt": "Untitled, London 2023",
-        "sourceFilename": "L1004281.jpeg"
       },
       {
         "id": "through-the-window-003",
