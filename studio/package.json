@@ -7,8 +7,9 @@
     "dev": "node server.mjs",
     "start": "node server.mjs",
     "build": "node scripts/build.mjs",
-    "check": "node --check server.mjs && node --check public/app.js && node --check public/manage.js",
-    "test": "node scripts/verify.mjs"
+    "check": "node --check server.mjs && node --check lib/studio.mjs && node --check public/app.js && node --check public/manage.js",
+    "test": "node scripts/test-studio.mjs",
+    "build:mac": "node scripts/build-mac-app.mjs"
   },
   "engines": {
     "node": ">=20"
