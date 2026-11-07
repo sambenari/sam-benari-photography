@@ -49,3 +49,7 @@ Desktop and 390-pixel mobile views were visually checked, including portrait/lan
 `public/app.js` and `public/style.css` define the visitor experience. `public/manage.js`, `public/manage.html` and `public/manage.css` define the local editor. `server.mjs` handles local files and the draft/upload endpoints. `public/data/collections.json` is the applied collection manifest; `data/draft.json` is created when a draft is saved. Uploaded originals are in `data/originals/`, and gallery renditions are in `public/assets/uploads/`.
 
 The optional `scripts/import-originals.py` script reimports the old website and regenerates the manifest. It requires Python 3, curl and macOS sips. Do not rerun it after curating your collections unless you intend to reset the applied manifest to the original source list.
+
+## Project slideshows
+
+Each gallery has a Slideshow button. It opens the selected photograph against a black background, requests native full screen when supported, and uses an edge-to-edge viewer otherwise. Photographs advance every five seconds after loading and loop within the project. Pause/Play, arrow buttons, keyboard arrows, Space and phone swipes control playback; Exit or Escape returns to the selected gallery photograph. Playback waits while the tab is hidden.

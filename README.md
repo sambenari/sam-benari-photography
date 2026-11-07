@@ -32,3 +32,7 @@ The previous site’s `/about.html`, `/store.html` and `/project.html?p=...` URL
 ## Verify changes
 
 With the local server running, `npm test` inside `studio/` checks the gallery assets and the upload/draft/cover workflow. It briefly changes preview data, restores the initial manifests, and removes its own temporary upload. Keep the manager closed during this check. See `studio/README.md` for further implementation details.
+
+## Project slideshows
+
+Each gallery has a Slideshow button. It opens the selected photograph against a black background, requests native full screen when supported, and uses an edge-to-edge viewer otherwise. Photographs advance every five seconds after loading and loop within the project. Pause/Play, arrow buttons, keyboard arrows, Space and phone swipes control playback; Exit or Escape returns to the selected gallery photograph. Playback waits while the tab is hidden.

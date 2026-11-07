@@ -1,5 +1,5 @@
 const main=document.querySelector('#main');
-let projects=[], currentPhoto=0, currentProject=null;
+let projects=[], currentPhoto=0, currentProject=null, slideshow=null;
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const arrow=(direction,label)=>`<button class="arrow ${direction}" aria-label="${label}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${direction==='prev'?'M15 4 7 12l8 8':'m9 4 8 8-8 8'}"/></svg></button>`;
 document.querySelector('#year').textContent=new Date().getFullYear();
@@ -15,8 +15,9 @@ function home(){
 }
 function gallery(p){
  currentProject=p;currentPhoto=0;document.title=p.title+' — Sam Benari';
- main.innerHTML=`<section class="gallery"><aside class="gallery-heading"><a class="back-link" href="/">← <span>All Projects</span></a><h1>${esc(p.title)}</h1><span class="black-rule"></span><p class="photo-counter" aria-live="polite"></p></aside><div class="photo-stage">${p.photos.length?'<figure><img id="selected-photo" alt="" fetchpriority="high"><figcaption class="sr-only" id="photo-caption"></figcaption></figure>':'<div class="empty-gallery"><h2>Rome</h2><p>This collection is forthcoming.</p><a class="text-link" href="/">Explore the other projects ↗</a></div>'}</div></section>${p.photos.length?`<section class="filmstrip" aria-label="Photograph selection">${arrow('prev','Previous photograph')}<div class="thumbnail-strip">${p.photos.map((photo,i)=>`<button class="thumbnail" data-index="${i}" aria-label="View ${esc(photo.alt)}" aria-pressed="false"><img src="${esc(photo.thumb)}" alt="" loading="lazy"></button>`).join('')}</div>${arrow('next','Next photograph')}</section><div class="gallery-bottom"><span>Use the arrows to explore</span><a href="/project/${projects[(projects.indexOf(p)+1)%projects.length].id}">Next project ↗</a></div>`:''}`;
+ main.innerHTML=`<section class="gallery"><aside class="gallery-heading"><a class="back-link" href="/">← <span>All Projects</span></a><h1>${esc(p.title)}</h1><span class="black-rule"></span><p class="photo-counter" aria-live="polite"></p>${p.photos.length?'<button class="slideshow-start">▷ Slideshow</button>':''}</aside><div class="photo-stage">${p.photos.length?'<figure><img id="selected-photo" alt="" fetchpriority="high"><figcaption class="sr-only" id="photo-caption"></figcaption></figure>':'<div class="empty-gallery"><h2>Rome</h2><p>This collection is forthcoming.</p><a class="text-link" href="/">Explore the other projects ↗</a></div>'}</div></section>${p.photos.length?`<section class="filmstrip" aria-label="Photograph selection">${arrow('prev','Previous photograph')}<div class="thumbnail-strip">${p.photos.map((photo,i)=>`<button class="thumbnail" data-index="${i}" aria-label="View ${esc(photo.alt)}" aria-pressed="false"><img src="${esc(photo.thumb)}" alt="" loading="lazy"></button>`).join('')}</div>${arrow('next','Next photograph')}</section><div class="gallery-bottom"><span>Use the arrows to explore</span><a href="/project/${projects[(projects.indexOf(p)+1)%projects.length].id}">Next project ↗</a></div>`:''}`;
  if(!p.photos.length)return;
+ main.querySelector('.slideshow-start').onclick=startSlideshow;
  main.querySelectorAll('.thumbnail').forEach(el=>el.onclick=()=>selectPhoto(Number(el.dataset.index)));
  main.querySelector('.prev').onclick=()=>selectPhoto(currentPhoto-1);
  main.querySelector('.next').onclick=()=>selectPhoto(currentPhoto+1);
@@ -32,9 +33,66 @@ function selectPhoto(index,scroll=true){
  main.querySelectorAll('.thumbnail').forEach((el,i)=>{el.classList.toggle('is-selected',i===currentPhoto);el.setAttribute('aria-pressed',String(i===currentPhoto));if(i===currentPhoto&&scroll){const strip=el.parentElement;strip.scrollTo({left:el.offsetLeft-strip.offsetLeft-strip.clientWidth/2+el.clientWidth/2,behavior:'smooth'});}});
  const next=p.photos[(currentPhoto+1)%p.photos.length];new Image().src=next.src;
 }
+
+function scheduleSlide(){
+ if(!slideshow)return;
+ clearTimeout(slideshow.timer);
+ if(slideshow.playing&&!document.hidden&&slideshow.image.complete&&slideshow.image.naturalWidth){
+  const active=slideshow;
+  active.timer=setTimeout(()=>{if(slideshow===active)slideStep(1);},5000);
+ }
+}
+function updateSlideshow(){
+ const active=slideshow;if(!active||!currentProject)return;
+ clearTimeout(active.timer);
+ const photo=currentProject.photos[currentPhoto];
+ active.image.alt=photo.alt;
+ active.counter.textContent=String(currentPhoto+1).padStart(2,'0')+' / '+String(currentProject.photos.length).padStart(2,'0');
+ active.message.textContent='';
+ active.image.src=photo.src;
+ scheduleSlide();
+}
+function slideStep(direction){if(!slideshow)return;selectPhoto(currentPhoto+direction,false);updateSlideshow();}
+function toggleSlideshow(){
+ if(!slideshow)return;
+ slideshow.playing=!slideshow.playing;
+ slideshow.play.textContent=slideshow.playing?'Ⅱ Pause':'▷ Play';
+ slideshow.play.setAttribute('aria-label',slideshow.playing?'Pause slideshow':'Play slideshow');
+ scheduleSlide();
+}
+function closeSlideshow(restoreFocus=true){
+ const active=slideshow;if(!active)return;
+ slideshow=null;clearTimeout(active.timer);
+ if(document.fullscreenElement===active.dialog)document.exitFullscreen?.().catch(()=>{});
+ active.dialog.close();active.dialog.remove();document.body.classList.remove('slideshow-open');
+ if(restoreFocus&&active.trigger?.isConnected)active.trigger.focus({preventScroll:true});
+}
+function startSlideshow(){
+ if(slideshow||!currentProject?.photos.length)return;
+ const dialog=document.createElement('dialog');
+ dialog.className='slideshow';dialog.tabIndex=-1;dialog.setAttribute('aria-label',currentProject.title+' slideshow');
+ dialog.innerHTML=`<header class="slideshow-header"><span>${esc(currentProject.title)}</span><button class="slideshow-exit" aria-label="Exit slideshow">Exit <span aria-hidden="true">×</span></button></header><div class="slideshow-stage"><img alt=""><p class="slideshow-message" role="status"></p></div><footer class="slideshow-controls">${arrow('prev','Previous slide')}<button class="slideshow-play" aria-label="Pause slideshow">Ⅱ Pause</button><span class="slideshow-counter"></span>${arrow('next','Next slide')}<span class="slideshow-hint">5 seconds · Space to pause · Esc to exit</span></footer>`;
+ document.body.append(dialog);
+ const active={dialog,image:dialog.querySelector('img'),counter:dialog.querySelector('.slideshow-counter'),message:dialog.querySelector('.slideshow-message'),play:dialog.querySelector('.slideshow-play'),trigger:document.activeElement,playing:true,timer:null,nativeFullscreen:false};
+ slideshow=active;document.body.classList.add('slideshow-open');
+ active.image.onload=()=>{if(slideshow===active)scheduleSlide();};
+ active.image.onerror=()=>{if(slideshow===active)active.message.textContent='This photograph could not load. Use the arrows to continue.';};
+ dialog.querySelector('.slideshow-exit').onclick=()=>closeSlideshow();
+ dialog.querySelector('.prev').onclick=()=>slideStep(-1);dialog.querySelector('.next').onclick=()=>slideStep(1);active.play.onclick=toggleSlideshow;
+ dialog.addEventListener('cancel',e=>{e.preventDefault();closeSlideshow();});
+ let startX;const stage=dialog.querySelector('.slideshow-stage');
+ stage.addEventListener('touchstart',e=>{startX=e.changedTouches[0].clientX;},{passive:true});
+ stage.addEventListener('touchend',e=>{const diff=startX-e.changedTouches[0].clientX;if(Math.abs(diff)>45)slideStep(diff>0?1:-1);},{passive:true});
+ dialog.showModal();dialog.focus({preventScroll:true});updateSlideshow();
+ // Phones without the Fullscreen API retain the same edge-to-edge dialog.
+ if(dialog.requestFullscreen)dialog.requestFullscreen().then(()=>{if(slideshow===active)active.nativeFullscreen=true;else if(document.fullscreenElement===dialog)document.exitFullscreen?.().catch(()=>{});}).catch(()=>{});
+}
+document.addEventListener('fullscreenchange',()=>{if(slideshow?.nativeFullscreen&&!document.fullscreenElement)closeSlideshow();});
+document.addEventListener('visibilitychange',scheduleSlide);
+
 function about(){document.title='About — Sam Benari';main.innerHTML=`<section class="about-page"><div class="about-photo"><img src="/assets/portrait.jpg" alt="Sam Benari" loading="lazy"></div><article><a class="back-link" href="/">← All Projects</a><h1>Sam Benari</h1><span class="red-rule"></span><div id="bio"></div><p class="about-contact">For prints, licensing or collaborations,<br><a href="mailto:sam.benari@me.com">sam.benari@me.com ↗</a></p><div class="socials"><a href="https://www.instagram.com/sambenari/" target="_blank" rel="noopener">Instagram ↗</a><a href="https://www.flickr.com/sam-benari/" target="_blank" rel="noopener">Flickr ↗</a></div></article></section>`;fetch('/data/bio.json').then(r=>r.json()).then(paras=>{if(location.pathname.replace(/\/index\.html$/,'').replace(/\/$/,'')==='/about')main.querySelector('#bio').innerHTML=paras.map(p=>`<p>${esc(p)}</p>`).join('');}).catch(()=>{const bio=main.querySelector('#bio');if(bio)bio.textContent='Street photography by Sam Benari.';});}
 function store(){document.title='Store — Sam Benari';main.innerHTML=`<section class="store-page"><span class="eyebrow">Photographs in print</span><h1>Store</h1><span class="red-rule"></span><p>Prints coming soon.</p><a class="text-link" href="mailto:sam.benari@me.com?subject=Store%20notification">Notify me when the store opens ↗</a><a class="back-link" href="/">← Return to the photographs</a></section>`;}
-function render(){const path=location.pathname.replace(/\/index\.html$/,'').replace(/\/$/,'')||'/';document.body.className=path==='/'?'home-page':'';document.querySelectorAll('[data-nav]').forEach(a=>{const active=a.dataset.nav===(path==='/about'?'about':path==='/store'?'store':'work');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});currentProject=null;if(path==='/')home();else if(path==='/about')about();else if(path==='/store')store();else{const p=projects.find(p=>path==='/project/'+p.id);if(p)gallery(p);else{document.title='Page not found — Sam Benari';main.innerHTML='<section class="store-page"><h1>Page not found</h1><a href="/">Return to the photographs ↗</a></section>';}}}
+function render(){closeSlideshow(false);const path=location.pathname.replace(/\/index\.html$/,'').replace(/\/$/,'')||'/';document.body.className=path==='/'?'home-page':'';document.querySelectorAll('[data-nav]').forEach(a=>{const active=a.dataset.nav===(path==='/about'?'about':path==='/store'?'store':'work');a.classList.toggle('active',active);if(active)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});currentProject=null;if(path==='/')home();else if(path==='/about')about();else if(path==='/store')store();else{const p=projects.find(p=>path==='/project/'+p.id);if(p)gallery(p);else{document.title='Page not found — Sam Benari';main.innerHTML='<section class="store-page"><h1>Page not found</h1><a href="/">Return to the photographs ↗</a></section>';}}}
 document.addEventListener('click',e=>{const a=e.target.closest('a');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.button!==0||a.target)return;const url=new URL(a.href);if(url.origin!==location.origin||url.pathname==='/manage'||url.hash)return;e.preventDefault();history.pushState({},'',url.pathname);render();window.scrollTo(0,0);});
-window.addEventListener('popstate',render);window.addEventListener('keydown',e=>{if(!currentProject||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();selectPhoto(currentPhoto+1);}if(e.key==='ArrowLeft'){e.preventDefault();selectPhoto(currentPhoto-1);}});
+window.addEventListener('popstate',render);window.addEventListener('keydown',e=>{if(!currentProject||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))return;if(e.key==='ArrowRight'){e.preventDefault();slideshow?slideStep(1):selectPhoto(currentPhoto+1);}if(e.key==='ArrowLeft'){e.preventDefault();slideshow?slideStep(-1):selectPhoto(currentPhoto-1);}if(slideshow&&e.code==='Space'&&e.target.tagName!=='BUTTON'){e.preventDefault();toggleSlideshow();}if(slideshow&&e.key==='Escape'){e.preventDefault();closeSlideshow();}});
 try{const response=await fetch('/data/collections.json');if(!response.ok)throw Error();projects=await response.json();render();}catch{main.innerHTML='<section class="store-page"><h1>Unable to load photographs</h1><p>Please refresh the page to try again.</p></section>';}
