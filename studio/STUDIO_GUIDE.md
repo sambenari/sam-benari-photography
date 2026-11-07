@@ -44,3 +44,19 @@ Use the View menu to compare the project draft with the read-only live collectio
 Remove keeps the original in the pool and shows an Undo removal option. Drag, use the earlier/later arrows, or enter a position to arrange the draft. Save draft, Preview draft, then Update live site. The publishing review shows photographs and filenames grouped under the affected projects. Publication verifies both the release marker and the exact project contents. Saved drafts have revision checks to prevent an older Studio window overwriting newer saved changes.
 
 The repair prepared on 7 November 2026 moves five Café Life-labelled additions and six unlabelled additions out of Through the Window into Café Life and Other Work respectively. It preserves the original five Through the Window additions and leaves Soho and Rome unchanged. The backup and per-file repair record are kept in the private data folder. This repair is a saved draft until explicitly published.
+
+
+## Contact sheet (Studio 1.2)
+
+Project covers show complete photographs, without cropping. The white collection workspace and dark pool contact sheet are separate. All matching pool photographs are in one scrollable sheet; thumbnails load lazily, with no 60-photo limit or Load more step. Select visible photos selects the currently visible contact-sheet rows.
+
+Import files into the pool using Import photographs or the pool import drop area. Direct file uploads into projects are rejected. Drag a pool thumbnail (or a selected group) into the white project panel to open the named destination review, then confirm the addition to the draft. Touch and keyboard users can select photographs and use the review button. Photographs already in the selected project cannot be added twice. Reordering and removal remain in the project panel.
+
+The Photos sync source is the Street Photography album (including the previously supported spelling Street Photorgraphy). Sync imports only into the pool. It does not scan the complete Photos library or add photographs automatically to a website project. File imports are available for photographs from elsewhere.
+
+
+## Selecting and adding from previews (Studio 1.2.1)
+
+Each pool photo has a separate full-width Select photo control with a large checkbox. Click the image to inspect it, or use the selection row to build a group. There is no four-photo limit. Your selection and filters are kept when scrolling, filtering, switching between the project and pool tabs, and reopening Studio. Choosing a different destination project clears the selection so it cannot silently move into a different project.
+
+The enlarged photo preview has an Add to [selected project] draft button. It saves just that photograph into the named draft project and preserves the rest of your selection. The button then changes to Already in [project] and is disabled. This never publishes the website automatically.

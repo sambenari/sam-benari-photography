@@ -20,6 +20,20 @@
         "source": "https://sambenari.com/projects/Through%20The%20Window/Imag%202.jpg"
       },
       {
+        "id": "pool-42d63380af99bab099f0",
+        "src": "/assets/pool/pool-42d63380af99bab099f0.jpg",
+        "thumb": "/assets/pool/pool-42d63380af99bab099f0-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1000737.jpeg"
+      },
+      {
+        "id": "pool-f3a5a97b3abb02d61145",
+        "src": "/assets/pool/pool-f3a5a97b3abb02d61145.jpg",
+        "thumb": "/assets/pool/pool-f3a5a97b3abb02d61145-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1004281.jpeg"
+      },
+      {
         "id": "through-the-window-003",
         "src": "/assets/through-the-window/003.jpg",
         "thumb": "/assets/through-the-window/003-thumb.jpg",
@@ -27,11 +41,25 @@
         "source": "https://sambenari.com/projects/Through%20The%20Window/Imag%203.jpg"
       },
       {
-        "id": "through-the-window-004",
-        "src": "/assets/through-the-window/004.jpg",
-        "thumb": "/assets/through-the-window/004-thumb.jpg",
-        "alt": "Through the Window — photograph 4",
-        "source": "https://sambenari.com/projects/Through%20The%20Window/Imag%204.jpg"
+        "id": "pool-c1b30a1379949e728bbf",
+        "src": "/assets/pool/pool-c1b30a1379949e728bbf.jpg",
+        "thumb": "/assets/pool/pool-c1b30a1379949e728bbf-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1000968.jpeg"
+      },
+      {
+        "id": "pool-a49c3586ecba50839a9b",
+        "src": "/assets/pool/pool-a49c3586ecba50839a9b.jpg",
+        "thumb": "/assets/pool/pool-a49c3586ecba50839a9b-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1004677.jpeg"
+      },
+      {
+        "id": "pool-bd70471eb16e10c646ec",
+        "src": "/assets/pool/pool-bd70471eb16e10c646ec.jpg",
+        "thumb": "/assets/pool/pool-bd70471eb16e10c646ec-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1004679.jpeg"
       },
       {
         "id": "through-the-window-005",
@@ -39,6 +67,13 @@
         "thumb": "/assets/through-the-window/005-thumb.jpg",
         "alt": "Through the Window — photograph 5",
         "source": "https://sambenari.com/projects/Through%20The%20Window/Imag%205.jpg"
+      },
+      {
+        "id": "pool-d3ec0b3f6c806aa376e7",
+        "src": "/assets/pool/pool-d3ec0b3f6c806aa376e7.jpg",
+        "thumb": "/assets/pool/pool-d3ec0b3f6c806aa376e7-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1002693.jpeg"
       },
       {
         "id": "through-the-window-006",
@@ -67,6 +102,20 @@
         "thumb": "/assets/through-the-window/009-thumb.jpg",
         "alt": "Through the Window — photograph 9",
         "source": "https://sambenari.com/projects/Through%20The%20Window/Imag%209.jpg"
+      },
+      {
+        "id": "pool-7bd2da4fbfe4943d1bd1",
+        "src": "/assets/pool/pool-7bd2da4fbfe4943d1bd1.jpg",
+        "thumb": "/assets/pool/pool-7bd2da4fbfe4943d1bd1-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1004501.jpeg"
+      },
+      {
+        "id": "pool-915290c8151d259be9a4",
+        "src": "/assets/pool/pool-915290c8151d259be9a4.jpg",
+        "thumb": "/assets/pool/pool-915290c8151d259be9a4-thumb.jpg",
+        "alt": "Untitled, Soho, London 2023",
+        "sourceFilename": "L1002265.jpeg"
       },
       {
         "id": "through-the-window-010",
@@ -174,6 +223,13 @@
         "source": "https://sambenari.com/projects/Through%20The%20Window/Imag%2024.jpg"
       },
       {
+        "id": "through-the-window-004",
+        "src": "/assets/through-the-window/004.jpg",
+        "thumb": "/assets/through-the-window/004-thumb.jpg",
+        "alt": "Through the Window — photograph 4",
+        "source": "https://sambenari.com/projects/Through%20The%20Window/Imag%204.jpg"
+      },
+      {
         "id": "through-the-window-025",
         "src": "/assets/through-the-window/025.jpg",
         "thumb": "/assets/through-the-window/025-thumb.jpg",
@@ -249,6 +305,20 @@
         "thumb": "/assets/pool/pool-0c671988a4b05a415453-thumb.jpg",
         "alt": "Untitled, London 2023",
         "sourceFilename": "L1007134.jpeg"
+      },
+      {
+        "id": "pool-b93f810fb1e36b7639d1",
+        "src": "/assets/pool/pool-b93f810fb1e36b7639d1.jpg",
+        "thumb": "/assets/pool/pool-b93f810fb1e36b7639d1-thumb.jpg",
+        "alt": "Untitled, Soho, London 2023",
+        "sourceFilename": "L1004653.jpeg"
+      },
+      {
+        "id": "pool-57b605d9c5bf8f7b2c23",
+        "src": "/assets/pool/pool-57b605d9c5bf8f7b2c23.jpg",
+        "thumb": "/assets/pool/pool-57b605d9c5bf8f7b2c23-thumb.jpg",
+        "alt": "Untitled, London 2023",
+        "sourceFilename": "L1002675.jpeg"
       }
     ]
   },
