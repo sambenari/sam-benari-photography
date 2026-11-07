@@ -33,3 +33,14 @@ The previous audit review remains readable through its existing link; its labele
 `npm start` runs the same manager locally. `npm run check` checks the source. `npm test` exercises project creation, imports, deduplication, ordering, cover changes, draft/preview separation, publishing review, stale review rejection, public export filtering and a complete build/commit/push against an isolated local Git repository. It does not publish to the real website. `npm run build:mac` builds and signs the Mac app in a temporary build folder and creates `release/Sam Benari Studio.zip`.
 
 The app is built for use on this Mac with its existing website checkout and Git access. A different Mac would need its own local library path and publishing credentials configured. Photos synchronization requires its first-run access prompt; the existing imported pool is already available without granting new permission.
+
+
+## Project-first editing (Studio 1.1)
+
+Choose the project at the top of Website projects. Its draft photographs appear on the left; the available photo pool appears alongside it. This highlighted project is the only destination for additions. Changing project clears the selection. Review selected photographs in the named destination before adding them. Labels help filter the pool and do not assign photographs automatically.
+
+Use the View menu to compare the project draft with the read-only live collection. The pool shows actual Live and Draft project membership separately from metadata labels. Choose Available to add or All photographs, filter by a project or photo label, and search by filename or keyword.
+
+Remove keeps the original in the pool and shows an Undo removal option. Drag, use the earlier/later arrows, or enter a position to arrange the draft. Save draft, Preview draft, then Update live site. The publishing review shows photographs and filenames grouped under the affected projects. Publication verifies both the release marker and the exact project contents. Saved drafts have revision checks to prevent an older Studio window overwriting newer saved changes.
+
+The repair prepared on 7 November 2026 moves five Café Life-labelled additions and six unlabelled additions out of Through the Window into Café Life and Other Work respectively. It preserves the original five Through the Window additions and leaves Soho and Rome unchanged. The backup and per-file repair record are kept in the private data folder. This repair is a saved draft until explicitly published.
