@@ -1,0 +1,16 @@
+{
+  "name": "sam-benari-photography",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "build": "node scripts/build.mjs",
+    "check": "node --check server.mjs && node --check public/app.js && node --check public/manage.js",
+    "test": "node scripts/verify.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

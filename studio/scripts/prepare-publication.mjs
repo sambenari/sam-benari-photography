@@ -1,0 +1,11 @@
+import {access,cp,readdir} from 'node:fs/promises';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
+if(!process.argv[2])throw Error('Pass the existing website repository path.');
+const target=path.resolve(process.argv[2]);
+if(target===root)throw Error('Use a separate publishing checkout.');
+await access(path.join(target,'.git'));await access(path.join(target,'CNAME'));
+const dist=path.join(root,'dist');
+for(const entry of await readdir(dist))await cp(path.join(dist,entry),path.join(target,entry),{recursive:true});
+console.log('Prepared static files in '+target+'. No Git commit, push or deployment performed.');
