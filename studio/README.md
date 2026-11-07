@@ -52,4 +52,4 @@ The optional `scripts/import-originals.py` script reimports the old website and 
 
 ## Project slideshows
 
-Each gallery has a Slideshow button. It opens the selected photograph against a black background, requests native full screen when supported, and uses an edge-to-edge viewer otherwise. Photographs advance every five seconds after loading and loop within the project. Pause/Play, arrow buttons, keyboard arrows, Space and phone swipes control playback; Exit or Escape returns to the selected gallery photograph. Playback waits while the tab is hidden.
+Each gallery has a Slideshow button. It opens the selected photograph against a white background with a thin black border, requests native full screen when supported, and uses an edge-to-edge viewer otherwise. Photographs advance every five seconds after loading and loop within the project. Pause/Play, arrow buttons, keyboard arrows, Space and phone swipes control playback; Exit or Escape returns to the selected gallery photograph. Playback waits while the tab is hidden.
